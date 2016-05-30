@@ -1,0 +1,9 @@
+---
+slug: :mikutter_auto_reply_bot_sample
+depends:
+  mikutter: 3.0.6
+  plugin: [streaming]
+version: '1.0'
+author: ahiru
+name: mikutter_auto_reply_bot_sample
+description: あひる焼くなプラグインから仕組みのみを抽出したサンプル
