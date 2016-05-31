@@ -7,6 +7,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
   # load reply dictionaries
   begin
     default = YAML.load_file(File.join(__dir__, 'dic/default.yml'))
+    shika = YAML.load_file(File.join(__dir__, 'dic/shika.yml'))
   rescue LoadError
     notice 'Could not load yml file'
   end
@@ -16,6 +17,12 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
       if m.message.to_s =~ /ひよわ焼き/ and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
         # select reply dic & get sample reply
         reply = default.sample
+
+        # send reply & fav
+        Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
+      elsif m.message.to_s =~ /鹿焼き/ and m[:created] > DEFINED_TIME and !m.retweet?
+        # select reply dic & get sample reply
+        reply = shika.sample
 
         # send reply & fav
         Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
