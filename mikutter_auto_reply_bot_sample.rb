@@ -9,6 +9,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
         default = YAML.load_file(File.join(__dir__, 'dic/default.yml'))
         shika = YAML.load_file(File.join(__dir__, 'dic/shika.yml'))
         sql = YAML.load_file(File.join(__dir__, 'dic/sql.yml'))
+        version = YAML.load_file(File.join(__dir__, 'dic/version.yml'))
     rescue LoadError
         notice 'Could not load yml file'
     end
@@ -19,6 +20,8 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
                 # select reply dic & get sample reply
                 if m.message.to_s =~ /OR/
                     reply = sql.sample
+                elsif m.message.to_s =~ /--version|-v/
+                    reply = version.sample
                 else
                     reply = default.sample
                 end
