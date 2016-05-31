@@ -30,7 +30,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
             elsif m.message.to_s =~ /鹿焼き/ and m[:created] > DEFINED_TIME and !m.retweet?
                 # 毎回は発動しないようにする
-                if [*1..10].sample > 5
+                if [*1..10].sample > 3
                     # select reply dic & get sample reply
                     reply = shika.sample
 
