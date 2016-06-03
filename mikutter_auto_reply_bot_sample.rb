@@ -7,7 +7,6 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
     # load reply dictionaries
     begin
         default = YAML.load_file(File.join(__dir__, 'dic/default.yml'))
-        shika = YAML.load_file(File.join(__dir__, 'dic/shika.yml'))
         sql = YAML.load_file(File.join(__dir__, 'dic/sql.yml'))
         version = YAML.load_file(File.join(__dir__, 'dic/version.yml'))
     rescue LoadError
@@ -28,15 +27,6 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
                 # send reply & fav
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
-            elsif m.message.to_s =~ /鹿焼き/ and m[:created] > DEFINED_TIME and !m.retweet?
-                # 毎回は発動しないようにする
-                if [*1..10].sample > 3
-                    # select reply dic & get sample reply
-                    reply = shika.sample
-
-                    # send reply & fav
-                    Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
-                end
             end
         end
     end
