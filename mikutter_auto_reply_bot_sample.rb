@@ -6,9 +6,9 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
     # load reply dictionaries
     begin
-        default = YAML.load_file(File.join(__dir__, 'dic/default.yml'))
-        sql = YAML.load_file(File.join(__dir__, 'dic/sql.yml'))
-        version = YAML.load_file(File.join(__dir__, 'dic/version.yml'))
+        default = YAML.load_file(File.join(__dir__, 'dic', 'default.yml'))
+        sql = YAML.load_file(File.join(__dir__, 'dic', 'sql.yml'))
+        version = YAML.load_file(File.join(__dir__, 'dic', 'version.yml'))
     rescue LoadError
         notice 'Could not load yml file'
     end
