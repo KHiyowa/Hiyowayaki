@@ -3,6 +3,7 @@
 Plugin.create(:mikutter_auto_reply_bot_sample) do
 
     DEFINED_TIME = Time.new.freeze
+    REPEAT = 10
 
     # load reply dictionaries
     begin
@@ -15,7 +16,8 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
     on_appear do |ms|
         ms.each do |m|
-            if m.message.to_s =~ /ひよわ.*焼|焼.*ひよわ|ひよわやき|Hiyowayaki/ and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
+            if m.message.to_s =~ /ひよわ.?焼|焼.*ひよわ|ひよわやき|Hiyowayaki|hiyowayaki|HIYOWAYAKI/ \
+                    and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
                 # select reply dic & get sample reply
                 if m.message.to_s =~ /OR/
                     reply = sql.sample
