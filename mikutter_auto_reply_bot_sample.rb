@@ -8,9 +8,9 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
     # load reply dictionaries
     begin
         default = YAML.load_file(File.join(__dir__, 'dic', 'default.yml'))
-        meshi = YAML.load_file(File.join(__dir__, 'dic', 'meshi.yml'))
         sql = YAML.load_file(File.join(__dir__, 'dic', 'sql.yml'))
         version = YAML.load_file(File.join(__dir__, 'dic', 'version.yml'))
+        meshi = YAML.load_file(File.join(__dir__, 'dic', 'meshi.yml'))
     rescue LoadError
         notice 'Could not load yml file'
     end
@@ -30,7 +30,11 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
                     reply = default.sample
                 end
 
-                # send reply & fav
+                # send reply
+                Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
+            elsif m.message.to_s =~ /ひよわbot ping/ \
+                    and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
+                reply = Time.new.to_s
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
             end
         end
