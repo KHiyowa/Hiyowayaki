@@ -1,5 +1,5 @@
 # mikutter_auto_reply_bot_sample
-あひる焼くなプラグインの仕組みをサンプルとして提供する何か
+あひる焼くなプラグインをベースにしたひよわ焼きbot
 
 ## How to use
 ```
