@@ -19,7 +19,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
     on_appear do |ms|
         ms.each do |m|
-            if m.message.to_s =~ /ひよわ.?焼|ヒィヨォワァヤァキ|ひよわやき|Hiyowayaki|hiyowayaki|HIYOWAYAKI|ひよわ飯/ \
+            if m.message.to_s =~ /ひよわ.?(焼|やき)|ヒィヨォワァヤァキ|(h|H)iyowayaki|HIYOWAYAKI|ひよわ飯/ \
                     and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
                 # select reply dic & get sample reply
                 if m.message.to_s =~ /OR/
@@ -43,8 +43,12 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
             end
-            if m.message.to_s =~ /ひよわbot ping/ and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
-                reply = Time.new.to_s
+            if m.message.to_s =~ /ひよわbot.*(ping|飯)/ and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
+                if m.message.to_s =~ /ping/
+                    reply = Time.new.to_s
+                elsif m.message.to_s =~ /飯/
+                    reply = meshi.sample
+                end
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
             end
