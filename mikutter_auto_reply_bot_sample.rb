@@ -32,11 +32,13 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
-            elsif m.message.to_s =~ /ひよわヨドバ/ and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
+            end
+            if m.message.to_s =~ /ひよわヨドバ|ひよわ焼きヨドバ/ and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
                 reply = yodobashi.sample
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
-            elsif m.message.to_s =~ /ひよわbot ping/ and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
+            end
+            if m.message.to_s =~ /ひよわbot ping/ and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
                 reply = Time.new.to_s
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
