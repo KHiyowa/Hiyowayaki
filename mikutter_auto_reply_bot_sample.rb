@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-Plugin.create(:mikutter_auto_reply_bot_sample) do
+def selTopic(random, list)
+    return list[random.rand(0..list.length - 1)]
+end
+
+Plugin.create(:mikutter_auto_reply_bot) do
 
     DEFINED_TIME = Time.new.freeze
-    REPEAT = 10
+    random = Random.new
 
     # load reply dictionaries
     begin
@@ -19,19 +23,19 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
 
     on_appear do |ms|
         ms.each do |m|
-            if m.message.to_s =~ /ひよわ.?(焼|やき)|ヒィヨォワァヤァキ|(h|H)iyowayaki|HIYOWAYAKI|ひよわ飯/ \
+            if m.message.to_s =~ /ひよわ.?(焼|やき)|ヒィヨォワァヤァキ|(h|H)iyowayaki|HIYOWAYAKI|Burned Hiyowa|ひよわ飯/ \
                     and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
-                # select reply dic & get sample reply
+                # select reply dic & get reply
                 if m.message.to_s =~ /OR/
-                    reply = sql.sample
+                    reply = selTopic(random, sql)
                 elsif m.message.to_s =~ /--version|-v/
-                    reply = version.sample
+                    reply = selTopic(random, version)
                 elsif m.message.to_s =~ /--help|-h/
-                    reply = help.sample
-                elsif m.message.to_s =~ /飯|めし/
-                    reply = meshi.sample
+                    reply = selTopic(random, help)
+                elsif m.message.to_s =~ /飯|めし|meal/
+                    reply = selTopic(random, meshi)
                 else
-                    reply = default.sample
+                    reply = selTopic(random, default)
                 end
 
                 # send reply
@@ -39,7 +43,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
             end
             if m.message.to_s =~ /ひよわヨドバ|ひよわ焼きヨドバ/ and m[:created] > DEFINED_TIME and !m.retweet?\
                     and !m.user.is_me?
-                reply = yodobashi.sample
+                reply = selTopic(random, yodobashi)
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
             end
@@ -47,7 +51,7 @@ Plugin.create(:mikutter_auto_reply_bot_sample) do
                 if m.message.to_s =~ /ping/
                     reply = Time.new.to_s
                 elsif m.message.to_s =~ /飯/
-                    reply = meshi.sample
+                    reply = selTopic(random, meshi)
                 end
                 # send reply
                 Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
