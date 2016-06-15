@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 def selTopic(random, list)
-    return list[random.rand(0..list.length - 1)]
+    return list.shuffle[random.rand(0..list.length - 1)]
 end
 
 Plugin.create(:mikutter_auto_reply_bot) do
