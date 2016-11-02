@@ -16,7 +16,7 @@ Plugin.create(:mikutter_auto_reply_bot) do
 
     on_appear do |ms|
         ms.each do |m|
-            if m.message.to_s =~ /(ひ|υ|ν)(よ|ょ)(わ|ゎ).?(焼|やき)|ヒィヨォワァヤァキ|(h|H)iyowayaki|HIYOWAYAKI|Burned Hiyowa/ \
+            if m.message.to_s =~ /(ひ|υ|ν)(よ|ょ)(わ|ゎ).?(焼|やき|ゃき)|ヒィヨォワァヤァキ|(h|H)iyowayaki|HIYOWAYAKI|Burned Hiyowa/ \
                 and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
                 reply = default.sample
 
