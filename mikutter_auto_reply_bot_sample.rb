@@ -14,7 +14,7 @@ Plugin.create(:mikutter_auto_reply_bot) do
 
   on_appear do |ms|
     ms.each do |m|
-      if m.to_s =~ /ひよわ飯/ and m[:created] > DEFINED_TIME and !m.retweet?# and !m.user.is_me?
+      if m.to_s =~ /ひよわ飯/ and m[:created] > DEFINED_TIME and !m.retweet? and !m.user.is_me?
         # select reply dic & get sample reply
         reply = meshi.sample
 
