@@ -27,6 +27,14 @@ Plugin.create(:mikutter_auto_reply_bot) do
 
         # send reply
         Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
+
+      elsif m.to_s =~ /ひよわbot.*飯/ and m[:created] > DEFINED_TIME and !m.retweet? and m.user.is_me?
+        # select reply dic & get sample reply
+        reply = meshi.sample
+
+        # send reply
+        Service.primary.post(:message => "@#{m.user.idname} #{reply}", :replyto => m)
+
       end
     end
   end
